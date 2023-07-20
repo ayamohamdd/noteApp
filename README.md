@@ -1,4 +1,4 @@
-Note App Flutter Project using sqflite and Dart
+
 Note App Flutter
 
 This repository contains a Note App built using Flutter and Dart, incorporating the sqflite plugin to manage the storage of notes locally on the device. 
