@@ -12,9 +12,11 @@ class SqlDB{
     String databasePath = await getDatabasesPath();
     String dbName = 'notes.db';
     String path= join(databasePath,dbName);
-    Database myDB = await openDatabase(path,onCreate: _onCreate,version: 1);
+    Database myDB = await openDatabase(path,onCreate: _onCreate,version: 2, onUpgrade: _onUpgrade
+    );
     return myDB;
   }
+
   _onCreate(Database db, int version) async{
     await db.execute('''
         CREATE TABLE "notes"(
@@ -25,6 +27,34 @@ class SqlDB{
         )
         ''');
     print("Create DB===========");
+  }
+
+  // To Drop Column color
+  _onUpgrade(Database db,int oldVersion,int newVersion) async{
+    // DOES NOT WORK!!
+    // await db.execute('''
+    // ALTER  TABLE notes
+    // DROP color
+    // ''');
+    // Step 1: Create New Table
+    await db.execute('''
+      CREATE TABLE "new_notes" (
+      "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+      "title" TEXT NOT NULL,
+      "note" TEXT NOT NULL);
+    ''');
+
+    // Step 2:  Copy data from the old table to the new table
+    await db.execute('''
+      INSERT INTO new_notes (id, title, note)
+      SELECT id,title,note FROM notes;
+    ''');
+    // Step 3: Drop the old table
+    await db.execute('DROP TABLE notes;');
+
+    // Step 4:  Rename the new table to the old table name
+    await db.execute('ALTER TABLE new_notes RENAME TO notes;');
+    print("Upgrade DB===========");
   }
   // SELECT
   readData(String sql) async{
