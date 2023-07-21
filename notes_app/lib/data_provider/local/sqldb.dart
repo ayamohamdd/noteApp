@@ -12,7 +12,7 @@ class SqlDB{
     String databasePath = await getDatabasesPath();
     String dbName = 'notes.db';
     String path= join(databasePath,dbName);
-    Database myDB = await openDatabase(path,onCreate: _onCreate,version: 2, onUpgrade: _onUpgrade
+    Database myDB = await openDatabase(path,onCreate: _onCreate,version: 1, onUpgrade: _onUpgrade
     );
     return myDB;
   }
@@ -30,6 +30,7 @@ class SqlDB{
   }
 
   // To Drop Column color
+  // TODO Don't forget to increase version
   _onUpgrade(Database db,int oldVersion,int newVersion) async{
     // DOES NOT WORK!!
     // await db.execute('''

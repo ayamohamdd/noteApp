@@ -7,9 +7,15 @@ class AddNote extends StatefulWidget {
   bool? flag;
   final note;
   final title;
-  final color;
+  //final color;
   int id;
-  AddNote({super.key,required this.id,required this.title, required this.note,required this.color,required this.flag});
+  AddNote({
+    super.key,
+    required this.id,
+    required this.title,
+    required this.note,
+   // required this.color,
+    required this.flag});
 
   @override
   State<AddNote> createState() => _AddNoteState();

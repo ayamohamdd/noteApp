@@ -56,7 +56,12 @@ class _NotesAppState extends State<NotesApp> {
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           Navigator.push(context,
-              MaterialPageRoute(builder: (context)=>AddNote(flag: false,note: "",title: "",color: "",id: 0,)));
+              MaterialPageRoute(builder: (context)=>AddNote(
+                flag: false,
+                note: "",
+                title: "",
+               // color: "",
+                id: 0,)));
         },
         child: const Icon(Icons.add),
       ),
@@ -131,7 +136,11 @@ class _NotesAppState extends State<NotesApp> {
                 // Edit
                 IconButton(
                     onPressed: (){Navigator.push(context,MaterialPageRoute(builder: (context)=>AddNote(
-                        flag: true,note: notes["note"],title: notes["title"],color: notes["color"],id:notes["id"],)));},
+                        flag: true,
+                      note: notes["note"],
+                      title: notes["title"],
+                      //color: notes["color"],
+                      id:notes["id"],)));},
                     icon: const Icon(Icons.edit),
                 )
               ],
