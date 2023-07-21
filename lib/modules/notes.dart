@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/data_provider/local/sqldb.dart';
-import 'package:notes_app/models/note.dart';
+import 'package:notes_app/modules/note.dart';
 
 class NotesApp extends StatefulWidget {
   const NotesApp({Key? key}) : super(key: key);
@@ -119,11 +119,11 @@ class _NotesAppState extends State<NotesApp> {
                           fontSize: 16.0,
                         ),),
                       SizedBox(height: 8.0,),
-                      Text(notes["color"],
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                        ),
-                      ),
+                      // Text(notes["color"],
+                      //   style: const TextStyle(
+                      //     fontSize: 16.0,
+                      //   ),
+                      // ),
 
                     ],
                   ),

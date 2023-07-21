@@ -31,7 +31,7 @@ class _AddNoteState extends State<AddNote> {
   void initState() {
     note.text = widget.note;
     title.text = widget.title;
-    color.text = widget.color;
+    //color.text = widget.color;
     flag = widget.flag;
     super.initState();
   }
@@ -118,35 +118,35 @@ class _AddNoteState extends State<AddNote> {
                   ),
                   const SizedBox(height: 20.0,),
                   // Color Text
-                  const Text(
-                    "Color",
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue
-                    ),
-                  ),
-                  const SizedBox(height: 10.0,),
-                  // Color TextFormField
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1.0,
-                          color: Colors.grey
-                      ),
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: color,
-                        decoration: const InputDecoration(
-                            hintText: "Color",
-                            border: InputBorder.none
-                        ),
-                      ),
-                    ),
-                  ),
+                  // const Text(
+                  //   "Color",
+                  //   style: TextStyle(
+                  //       fontSize: 20.0,
+                  //       fontWeight: FontWeight.bold,
+                  //       color: Colors.blue
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 10.0,),
+                  // // Color TextFormField
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     border: Border.all(
+                  //         width: 1.0,
+                  //         color: Colors.grey
+                  //     ),
+                  //     borderRadius: BorderRadius.circular(15.0),
+                  //   ),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: TextFormField(
+                  //       controller: color,
+                  //       decoration: const InputDecoration(
+                  //           hintText: "Color",
+                  //           border: InputBorder.none
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 80.0,),
                   // Add Note || Edit Note Btn
                   Container(
@@ -172,7 +172,7 @@ class _AddNoteState extends State<AddNote> {
                             {
                               "title" : title.text,
                               "note" : note.text,
-                              "color" : color.text
+                              //"color" : color.text
                             },
                           "id = ${widget.id}"
                         ) :
@@ -184,7 +184,7 @@ class _AddNoteState extends State<AddNote> {
                         await sqlDb.insert("notes", {
                           "title" : title.text,
                           "note" : note.text,
-                          "color" : color.text
+                          //"color" : color.text
                         });
                         if(response>0){
                           Navigator.of(context).pushAndRemoveUntil(
