@@ -7,14 +7,12 @@ class AddNote extends StatefulWidget {
   final bool isEditing;
   final String title;
   final String description;
-  final String color;
   final int id;
   const AddNote(
       {super.key,
       required this.isEditing,
       required this.title,
       required this.description,
-      required this.color,
       required this.id});
 
   @override
@@ -29,14 +27,12 @@ class _AddNoteState extends State<AddNote> {
 
   TextEditingController title = TextEditingController();
 
-  TextEditingController color = TextEditingController();
   var isEditing = false;
   int? id;
   @override
   void initState() {
     title.text = widget.title;
     description.text = widget.description;
-    color.text = widget.color;
     id = widget.id;
     isEditing = widget.isEditing;
     super.initState();
@@ -139,38 +135,7 @@ class _AddNoteState extends State<AddNote> {
                     const SizedBox(
                       height: 20.0,
                     ),
-                    //Color Text
-                    const Text(
-                      "Color",
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue),
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    // Color TextFormField
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1.0, color: Colors.grey),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          controller: color,
-                          validator: (String? value) {
-                            if (value!.isEmpty) {
-                              return "color must not be null";
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                              hintText: "Color", border: InputBorder.none),
-                        ),
-                      ),
-                    ),
+                    
                     const SizedBox(
                       height: 80.0,
                     ),
@@ -189,14 +154,12 @@ class _AddNoteState extends State<AddNote> {
                                 ? await sqlDb.myUpdate('note',{
                                   "title" : title.text,
                                   "description" : description.text,
-                                  "color" : color.text
                                 },
                                 "id = $id"
                                 )
                                 : await sqlDb.myInsert('note',{
                                   "title" : title.text,
                                   "description" : description.text,
-                                  "color" : color.text
                                 }
                                 );
                             print(response);

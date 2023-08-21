@@ -55,7 +55,6 @@ class _NoteAppState extends State<NoteApp> {
                       isEditing: false,
                       title: "",
                       description: "",
-                      color: "",
                       id: 0)));
         },
         child: const Icon(Icons.add),
@@ -64,36 +63,35 @@ class _NoteAppState extends State<NoteApp> {
   }
 
   Widget buildNoteModel(Map notes) {
-    return Dismissible(
-      key: UniqueKey(),
-      onDismissed: (direction) async {
-        //int response = await sqlDb.deleteData('''DELETE FROM 'note' WHERE id =${notes["id"]}''');
-        
-        int response = await sqlDb.myDelete('note',"id = ${notes["id"]}");
-        print(response);
-      },
-      background: Container(
-        color: Colors.redAccent,
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:  [
-            Text(
-              "Delete Note ",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Dismissible(
+        key: UniqueKey(),
+        onDismissed: (direction) async {
+          //int response = await sqlDb.deleteData('''DELETE FROM 'note' WHERE id =${notes["id"]}''');
+          int response = await sqlDb.myDelete('note',"id = ${notes["id"]}");
+          print(response);
+        },
+        background: Container(
+          color: Colors.redAccent,
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:  [
+              Text(
+                "Delete Note ",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+              Icon(
+                Icons.delete,
                 color: Colors.white,
               ),
-            ),
-            Icon(
-              Icons.delete,
-              color: Colors.white,
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
             color: const Color(0xffd8e6f6),
@@ -125,15 +123,6 @@ class _NoteAppState extends State<NoteApp> {
                           fontSize: 16.0,
                         ),
                       ),
-                      const SizedBox(
-                        height: 8.0,
-                      ),
-                      Text(
-                        notes["color"],
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -147,7 +136,6 @@ class _NoteAppState extends State<NoteApp> {
                                 isEditing: true,
                                 title: notes["title"],
                                 description: notes["description"],
-                                color: notes["color"],
                                 id: notes["id"])));
                   },
                   icon: const Icon(Icons.edit),

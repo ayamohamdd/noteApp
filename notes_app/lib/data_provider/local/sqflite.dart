@@ -15,7 +15,7 @@ class Sqflite {
     // database_path/note.db
     String path = join(databasePath, databaseName);
     Database? myDb = await openDatabase(path,
-        version: 1, onCreate: _onCreate, onUpgrade: _onUpgrade);
+        version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return myDb;
   }
 
@@ -47,33 +47,27 @@ class Sqflite {
   // To Drop Column color
   // TODO DON'T FORGET TO INCREASE VERSION
   _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    // Does not work!!!!!!
     await db.execute('''
-    ALTER TABLE note
-    DROP color
+      CREATE TABLE "new_note"(
+        "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+        "title" TEXT NOT NULL,
+        "description" TEXT NOT NULL
+      )
   ''');
 
-    // Step 1: Create New Table
     await db.execute('''
-    CREATE TABLE "new_notes" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL);
-  ''');
-
-    // Step 2: Copy data from the old table to the new table
+    INSERT INTO "new_note" ("id","title","description")
+    SELECT id,title,description FROM "note";
+''');
 
     await db.execute('''
-  INSERT INTO new_notes (id, title, description)
-  SELECT id, title, description FROM notes;
-   ''');
-    // Step 3: Drop the old table
-    await db.execute('DROP TABLE notes;');
+    DROP TABLE "note"
+''');
 
-    // Step 4: Rename the new table to the old table name
-    await db.execute('ALTER TABLE new_notes RENAME TO notes;');
-
-    print("Upgrade DB==================");
+    await db.execute('''
+    ALTER TABLE "new_note" RENAME TO "note";
+''');
+    print("onUpgrade Done");
   }
 
   // CRUD Operations
