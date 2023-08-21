@@ -15,7 +15,9 @@ class _NoteAppState extends State<NoteApp> {
   List notesList = [];
   bool isLoading = true;
   myReadData() async {
-    List<Map> response = await sqlDb.readData('SELECT * FROM note');
+    //List<Map> response = await sqlDb.readData('SELECT * FROM note');
+    // Shortcut
+    List<Map> response = await sqlDb.myRead('note');
     notesList.addAll(response);
     isLoading = false;
     setState(() {});
@@ -65,15 +67,16 @@ class _NoteAppState extends State<NoteApp> {
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (direction) async {
-        int response = await sqlDb
-            .deleteData('''DELETE FROM 'note' WHERE id =${notes["id"]}''');
+        //int response = await sqlDb.deleteData('''DELETE FROM 'note' WHERE id =${notes["id"]}''');
+        
+        int response = await sqlDb.myDelete('note',"id = ${notes["id"]}");
         print(response);
       },
       background: Container(
         color: Colors.redAccent,
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children:  [
             Text(
               "Delete Note ",
               style: TextStyle(

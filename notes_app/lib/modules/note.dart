@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data_provider/local/sqflite.dart';
+import 'package:notes_app/data_provider/local/sqflite.dart';
+
 import 'note_app.dart';
 
 class AddNote extends StatefulWidget {
@@ -178,31 +179,30 @@ class _AddNoteState extends State<AddNote> {
                       width: 200.0,
                       height: 50.0,
                       decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Colors.transparent, width: 1.0),
+                        border: Border.all(color: Colors.transparent, width: 1.0),
                         borderRadius: BorderRadius.circular(50.0),
                       ),
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             int response = isEditing
-                                ? await sqlDb.updateData('''
-                            UPDATE "note" SET "title" = "${title.text}",
-                            "description" = "${description.text}",
-                            "color" = "${color.text}"
-                            WHERE id = "$id"
-                          ''')
-                                : await sqlDb.insertData('''
-                           INSERT INTO 'note'("title","description","color")
-                           VALUES("${title.text}","${description.text}","${color.text}")
-                          ''');
-
+                                ? await sqlDb.myUpdate('note',{
+                                  "title" : title.text,
+                                  "description" : description.text,
+                                  "color" : color.text
+                                },
+                                "id = $id"
+                                )
+                                : await sqlDb.myInsert('note',{
+                                  "title" : title.text,
+                                  "description" : description.text,
+                                  "color" : color.text
+                                }
+                                );
                             print(response);
                             if (response > 0) {
                               Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => const NoteApp()),
-                                  (route) => false);
+                                  MaterialPageRoute(builder: (context) => const NoteApp()),(route) => false);
                             }
                           }
                         },
